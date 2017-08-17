@@ -1,0 +1,557 @@
+.app {
+    background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
+    position:absolute;             /* position in the center of the screen */
+    left:50%;
+    top:50%;
+    height:50px;                   /* text area height */
+    width:225px;                   /* text area width */
+    text-align:center;
+    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
+    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
+                                   /* offset horizontal: half of text area width */
+}
+body{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+}
+
+/*change font sizing across app
+body, input, button, select, option, textarea {
+    font-family: ...; ------------whatever font
+}
+body {
+    font-size: x%; -------------- whatever base font size I want
+}*/
+
+input, button, select, option, textarea {
+    font-size: 100%;
+}
+
+
+
+/*Display settings to hide all main pages/components initially*/
+#startPage{display:block;}
+
+#aboutUsPage{display:none;}
+#emailAllPage{display:none;}
+#managePage{display:none;}
+	#manageButs{display:none;}
+	#dbManager{display:none;}
+		#manageTable  tr td:nth-child(3), th:nth-child(1) {display: none;}
+		#manageTable  tr td:nth-child(4), th:nth-child(1) {display: none;}
+	#mngAddStarter{display:none;}
+	#mngAddForm{display:none;}
+	#manBackBut{display:none;}
+
+#subjHeadBut{display:none;}
+#intIndHeadBut{display:none;}
+#intDirHeadBut{display:none;}
+#indGoalHeadBut{display:none;}
+#dirGoalHeadBut{display:none;}
+#methHeadBut{display:none;}
+#toolHeadBut{display:none;}
+#uttHeadBut{display:none;}
+#demHeadBut{display:none;}
+#arrow1{display:none;}
+#arrow2{display:none;}
+#arrow3{display:none;}
+#arrow4{display:none;}
+#arrow5{display:none;}
+#arrow6{display:none;}
+
+#subjIDPage{display:none;}	
+	#beginNewButs{display:none;}
+
+#intervSwitchButs{display:none;}
+	
+#subjSelectPage{display:none;}
+	#subjSelectTable tr td:nth-child(4), th:nth-child(1) {display: none;}
+	#subjSelectTable tr td:nth-child(5), th:nth-child(1) {display: none;}
+	#subjSelectTable tr td:nth-child(6), th:nth-child(1) {display: none;}
+	#subjSelectTable tr td:nth-child(7), th:nth-child(1) {display: none;}
+	#subjSelectTable tr td:nth-child(8), th:nth-child(1) {display: none;}
+	#subjSelectOptions{display:none;}
+#newPatBut{display:none;}
+
+#indGoalPage{display:none;}
+	/*#pedChoices{display:none;}*/
+#indSessionForm{display:none;}	
+	#gkeDiv{display:none;}	
+	#indVHGoalsDiv{display:none;}
+	#indCounselingDiv{display:none;}
+#indEditPage{display:none;}
+	#updateCounBut{display:none;}
+	#updateGKEbut{display:none;}
+	
+#indSelectPage{display:none;}	
+	#indSelectTable tr td:nth-child(3), th:nth-child(1) {display: none;}
+	#addIndForm{display:none;}
+	
+#dirGoalPage{display:none;}
+	#methTaskForm{display:none;}
+	#uttForm{display:none;}
+	#subUttBut{display:none;}
+	#cueLevListForm{display:none;}
+	#trialBoxes{display:none;}
+	#trialResetter{display:none;}
+	
+#dirSelectPage{display:none;}	
+	#dirSelectTable tr td:nth-child(3), th:nth-child(1) {display: none;}
+	#addDirForm{display:none;}
+	#cueTitle{display:none;}
+
+#helpPage{display:none;}
+	#noHelpText{display:none;}
+	#hideHelpButi{display:none;}
+	#hideHelpButd{display:none;}
+	#hideHelpButm{display:none;}
+	#hideHelpButns{display:none;}
+	#hideHelpButss{display:none;}
+	#indHelpText{display:none;}
+		#counsHelpText{display:none;}
+		#pedHelpText{display:none;}
+		#vocHygHelpText{display:none;}
+	#dirHelpText{display:none;}
+		#mtHelpText{display:none;}
+		#dmHelpText{display:none;}
+
+	
+#sessNotesPage{display:none;}
+	#endPage{display:none;}
+	#endSendOpts{display:none;}	
+	#fullEndBut{display:none;}
+
+/*Three state checkbox theme*/
+.threestate{
+	/*height:8vw; /* 8% of "view width" https://developer.mozilla.org/en-US/docs/Web/CSS/length#Viewport-percentage_lengthswidth:8vw;*/ 
+	/*width:8vw; 
+	margin-right:.5vw;
+	*/
+	
+	float: left;
+	text-align:center;
+	/*font-size:5vw;*/
+	font-weight:bold;
+	/*border:1px #000000 solid;
+	margin-right:1vw;*/
+	
+	/*FOR SCREENSHOT*/
+	min-width:50px;
+	min-height:50px;
+	margin-top:0px;
+	margin-right:10px;
+	line-height: 50px; /*match height in order to vertically center text*/
+	
+}
+.unchecked { 
+	background:#999999; 
+}
+.correct  {
+	background:green;
+}
+.incorrect { 
+	background:red; 
+}
+
+/*Submit button for 3state*/
+.submitted{
+	margin-top:5px;
+}
+	/*
+	float: left;
+	background:#999999;
+	width:150px;
+	height:50px;
+	line-height: 50px;
+	margin-top:10px;
+	margin-right:10px;
+	text-align:center;
+	font-weight:bold;
+	/*height:8vw;  8% of "view width" https://developer.mozilla.org/en-US/docs/Web/CSS/length#Viewport-percentage_lengths*/
+	/*width:16vw;
+	float: left;
+	text-align:center;
+	font-size:5vw;
+	
+	border:1px #000000 solid;
+	margin-right:1vw; 
+}*/
+
+
+/* ##############MJC */
+.headerLogoButtons{
+	min-height:50px;
+}
+.headerButton {
+	float:left;
+	white-space: normal;
+	/*max-width:30%;
+	min-width:5%;*/
+	padding:2px;
+	margin-left:3px;
+	background:#ffffff;
+	min-height:25px;
+}
+.subjButton{
+	border:3px solid  #9e0142;
+}
+.intTypeButton{
+	border:3px solid  #d53e4f;
+}
+.goalButton{
+	border:3px solid  #f46d43;
+}
+.methodButton{
+	border:3px  solid #e6f598;
+}
+.toolButton{
+	border:3px solid  #66c2a5;
+}
+ .stimButton{
+	border:3px solid #3288bd ;
+}
+.deliveryButton{
+	border:3px solid #762a83 ;
+}
+/*.headerLogoButtons button, .arrow-right{
+        min-height: 20px;
+        border: 1px solid #000;
+        display: -moz-inline-stack;
+        display: inline-block;
+        vertical-align: top;
+        margin: 5px;
+        zoom: 1;
+        *display: inline;
+        _height: 20px;
+		min-width:10px;
+}
+.headerLogoButtons div{
+	        min-height: 20px;
+        border: 1px solid #000;
+        display: -moz-inline-stack;
+        display: inline-block;
+        vertical-align: top;
+        margin: 5px;
+        zoom: 1;
+        *display: inline;
+        _height: 20px;
+
+}*/
+.footerButtons a, .frontPageButton a{
+	background-color: #FFFFFF;
+	color:#000000;
+    font-weight: bold;
+    border: 2px solid #bfbfbf;
+    padding: 1px;
+    margin-bottom: 3px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+    -moz-box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+    box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+    display: inline-block;
+    font-family: Arial;
+    font-size: 20px;
+    padding: 8px 15px;
+    text-decoration: none;
+
+}
+.footerButtons a, .footerButtons button, .footerButtons div, .frontPageButton a, .frontPageButton button{
+	margin-right:10px;
+}	
+.footerButtons img{
+	padding-top:8px;
+}
+
+.footerButtons{
+	padding:10px;
+	margin-top:10px;
+	border-top-width:4px;
+	border-top-style:double;
+	border-top-color: #bfbfbf;
+	display:block;
+	/*border-top: medium double #333;*/
+	text-align:center;
+}
+.footerButtons button, .footerButtons div{
+	text-align:center;
+	display:inline-block;
+	vertical-align:bottom;
+}
+
+
+.aboutButton{
+	border:2px solid #bfbfbf;
+}
+.bodyContent{
+	display:block;
+	float:none;
+}
+hr {
+    padding: 0;
+    border: none;
+    border-top: medium double #333;
+    color: #333;
+    text-align: center;
+	width:80%;
+}
+.stepplablogo{
+	margin-top:10px;
+	text-align:center;
+}
+/*orig 000066 003366 0066CC 009966 00CC33 00FF99*/
+
+.contentButtons{
+	width:100%;
+	left: 50%;
+	text-align:center;
+}
+
+
+
+.pageTitle{
+	font-size:larger;
+	font-weight:bold;
+	width:100%;
+	padding-bottom:5px;
+	padding-top:15px;
+	clear:left;
+	float:none;
+}
+.pageSub{
+	font-size:small;
+	/*font-weight:bold;
+	width:100%;
+	padding-bottom:5px;
+	padding-top:15px;
+	clear:left;
+	float:none;*/
+
+}
+
+#tmpHide{display:none;}	
+.tmpHide{display:none;}	
+
+.chooseLevel{
+	/*font-size:larger;
+	white-space: normal;
+	max-width:30%;
+	min-width:5%
+	padding:2px;
+	margin-left:3px;
+	background:#ffffff;
+	min-height:25px;*/
+	border:3px solid #5e4fa2; 
+}
+
+
+button {
+	background-color: #FFFFFF;
+	font-weight: bold;
+	border:2px solid #666666;
+	padding:1px;
+	margin-bottom:3px;
+  
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	
+	-webkit-box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	-moz-box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	
+	display:inline-block;
+	cursor:pointer;
+	
+	font-family:Arial;
+	font-size: 20px;
+	/*font-weight:bold;*/
+	padding:8px 15px;
+	text-decoration:none;
+}
+
+input[type='checkbox'] {
+    -webkit-appearance:none;
+    width:25px;
+    height:25px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
+}
+input[type='checkbox']:checked {
+	background: #666666;
+}
+
+input[type='radio'] {
+    -webkit-appearance:none;
+    width:25px;
+    height:25px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
+}
+input[type='radio']:checked {
+	background: #666666;
+}
+
+
+.arrow-right {
+	width: 0; 
+	height: 0; 
+	margin-left: 5px;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	border-left: 8px solid #666666;
+	float:left;
+	margin-top:6px;
+}
+
+.logo{
+	float:right;
+	text-align:right;
+	height:80px;
+	margin-top:-50px;
+}
+
+.logoStart{
+	/*background-image:url("../img/logoStart.jpg");
+	width:400px;
+	background-color:#ff0000;
+	height:800px;*/
+	width:100%;
+	text-align:center;
+	padding-top:50px;
+}
+
+/*.helpButton{
+	float:right;
+	text-align:right;
+}*/
+
+table, th, td {
+    border: none;
+}
+
+#subjSelectTable{
+	border:none;
+	border-spacing: 10px;
+}
+
+	
+#dirSelectTable{
+	border:none;
+	border-spacing: 10px;
+}
+
+#dirSelectTable input{
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	
+	-webkit-box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	-moz-box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	
+	display:inline-block;
+	cursor:pointer;
+	font-size:20px;
+
+}
+
+#dirSelectTable table, #dirSelectTable th, #dirSelectTable td {
+	border:none;
+}
+
+#indSelectTable{
+	border:none;
+	border-spacing: 10px;
+}
+
+#indSelectTable input{
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	
+	-webkit-box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	-moz-box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	
+	display:inline-block;
+	cursor:pointer;
+	font-size:20px;
+
+}
+
+#manageTable table, #manageTable th, #manageTable td {
+	border:none;
+}
+
+#manageTable{
+	border:none;
+	border-spacing: 10px;
+}
+
+#manageTable input{
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	
+	-webkit-box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	-moz-box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	box-shadow: 5px 5px 3px 0px rgba(153,153,153,0.44);
+	
+	display:inline-block;
+	cursor:pointer;
+	font-size:20px;
+
+}
+
+#manageTable table, #manageTable th, #manageTable td {
+	border:none;
+}
+
+#uttLevelSelectForm .uttStyle{
+	padding-bottom:10px;
+	margin-bottom:10px;
+}
+
+#gkeDiv .gkeStyle{
+	padding-bottom:10px;
+	margin-bottom:10px;
+}
+
+.taskCategory{
+	float: left;
+	display:inline-block;	
+	width:100%;
+	padding-bottom:5px;
+}
+.taskCategory label{
+	font-size:120%;
+	color:#386093; /*blue from logo*/
+	padding-bottom:0;
+	
+}
+
+.methodGroup{
+	display:inline-block;
+	float:left;
+	/*padding-bottom:0;*/
+	padding-right:5px;
+	
+}
+.methodGroup p{
+	color:#404040;
+	font-weight:bold;
+	padding:3px;
+	margin:0;
+
+}
+.methodGroup label{
+	font-weight:normal;
+	font-size:100%;
+	color:#000000;
+	padding:2px;
+	padding-top:8px;
+}

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.voicetmp.tmp" version="0.0.3" 
+	xmlns="http://www.w3.org/ns/widgets" 
+	xmlns:cdv="http://cordova.apache.org/ns/1.0"
+	xmlns:gap="http://phonegap.com/ns/1.0">
+	
+    <name>VoiceTx</name>
+    <description>
+        An app to document voice therapy.
+    </description>
+    <author email="stepplab@gmail.com" href="stepplab.com">
+        Stepp Lab
+    </author>
+    <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist" version="1" />
+	<gap:plugin name="de.appplant.cordova.plugin.email-composer" version="0.8.2" />
+	<gap:plugin name="uk.co.workingedge.cordova.plugin.sqliteporter" source="npm" />
+	<gap:plugin name="io.litehelpers.cordova.sqlite" version="0.7.10" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+	<allow-navigation href="http://*/*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+
+	<!-- Default application icon<icon src="www/res/img/icon.png" /> -->
+
+<!--
+    Default icon should work, but cordova don't overwrite
+    the default on all densities
+-->
+<icon src="www/img/drawable-ldpi-icon.png" platform="android" density="ldpi" />
+<icon src="www/img/drawable-mdpi-icon.png" platform="android" density="mdpi" />
+<icon src="www/img/drawable-hdpi-icon.png" platform="android" density="hdpi" />
+<icon src="www/img/drawable-xhdpi-icon.png" platform="android" density="xhdpi" />
+<icon src="www/img/drawable-xxhdpi-icon.png" platform="android" density="xxhdpi" />
+<icon src="www/img/drawable-xxxhdpi-icon.png" platform="android" density="xxxhdpi" />
+
+</widget>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+	<!-- Enable all requests, inline styles, and eval() -->
+	<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+
+		<script type="text/javascript" src="cordova.js"></script>
+		<!-- <script type="text/javascript" src="js/jutoPDFCreator.js"></script>
+		<script type="text/javascript" src="js/dist/jspdf.min.js"></script>
+		 class not found error? debugs + adds plugins 
+		<script type="text/javascript" src="js/dist/jspdf.debug.js"></script>-->
+		
+		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="js/subjectFormScript.js"></script>
+		<script type="text/javascript" src="js/indScript.js"></script>
+		<script type="text/javascript" src="js/indEditFunctions.js"></script>
+		<script type="text/javascript" src="js/dirScript.js"></script>
+		<script type="text/javascript" src="js/dirLevelsScript.js"></script>
+		<script type="text/javascript" src="js/dirGoalSelectScript.js"></script>
+		<script type="text/javascript" src="js/pageChangeFunctions.js"></script>
+		<script type="text/javascript" src="js/subjectSelectScript.js"></script>
+		<script type="text/javascript" src="js/sessionTableFunctions.js"></script>
+		<script type="text/javascript" src="js/sessionNotesScript.js"></script>
+		<script type="text/javascript" src="js/emailDatabase.js"></script>
+		<script type="text/javascript" src="js/manageSessScript.js"></script>
+    
+		<script type="text/javascript" charset="utf-8"> 
+			// Wait for device API libraries to load
+			//
+			function onLoad() {
+				document.addEventListener("deviceready", onDeviceReady, false);
+			}
+
+			// device APIs are available
+			//
+			function onDeviceReady() {
+				// Now safe to use device APIs
+				startDb();
+			}
+
+		</script>
+				
+	</head>
+	<body onload="onLoad()">
+<div class="headerLogoButtons">
+	<!-- <div class="logoStart"><img src="img/logo300w.jpg" /></div>	-->
+	<!--<div class="logo"><img src="img/logo150w.jpg" /></div>-->
+
+	<!--Header to display current subject information(update with updateCurrSubjInfo()) also clickable to to select new tasks----------------------------------------------------------------------->
+	<div id="currInfoButs">
+	<!-- Home button? would go to start page?-->
+		<button type="button" id="subjHeadBut" class="headerButton subjButton" onclick="buttonPageChoose('startPage')">Subject</button><div id="arrow1" class="arrow-right"></div>
+		<button type="button" id="intIndHeadBut" class="headerButton intTypeButton" onclick="buttonPageChoose('subjSelectPage')">Indirect Intervention</button>
+		<button type="button" id="intDirHeadBut" class="headerButton intTypeButton" onclick="buttonPageChoose('subjSelectPage')">Direct Intervention</button><div id="arrow2" class="arrow-right"></div>
+		<button type="button" id="indGoalHeadBut" class="headerButton goalButton" onclick="buttonPageChoose('indGoalPage')">Last ind goal</button>
+		<button type="button" id="dirGoalHeadBut" class="headerButton goalButton" onclick="buttonPageChoose('dirSelectPage')">Last dir goal</button><div id="arrow3" class="arrow-right"></div>
+		<button type="button" id="methHeadBut" class="headerButton methodButton" onclick="buttonPageChoose('methTaskForm')">Method text</button><div id="arrow4" class="arrow-right"></div>
+		<button type="button" id="toolHeadBut" class="headerButton toolButton" onclick="buttonPageChoose('methTaskForm')">Tool text</button><div id="arrow5" class="arrow-right"></div>
+		<button type="button" id="uttHeadBut" class="headerButton stimButton" onclick="buttonPageChoose('uttForm')">Utterance level</button><div id="arrow6" class="arrow-right"></div>
+		<button type="button" id="demHeadBut" class="headerButton deliveryButton" onclick="buttonPageChoose('cueLevListForm')">Delivery method</button>
+	</div>	
+</div> <br>
+<!--<p>&nbsp;</p>-->
+<!--Startup Page. Users choose whether they will begin a therapy session with a new client or start from where they left off with an existing subject. class="blueButton"---------------------------->
+	<div id="startPage">
+		<div class="logo"><img src="img/logo150w.jpg" /></div>
+		<div class="logoStart">
+			<div align="center"><button type="button" onclick="choseNewPatient()">New Patient</button></div>
+			<div align="center"><button type="button" onclick="choseExistingPatient(), fillSubjTable()"> Existing Patient</button></div>
+			<div align="center"><button type="button" onclick="openManageSess(true)"> Manage My Session</button></div>
+			<!--<hr>
+			<!--<div class="frontPageButton">--> 
+			<div class="footerButtons">
+				<button type="button" class="aboutButton" onclick="aboutVoiceTx(true)">About VoiceTx</button>
+				<a href="mailto:stepplab@gmail.com?Subject=VoiceTx%20Feedback" >Send App Feedback</a>
+				<button type="button" id="emailPgBut"  class="aboutButton" onclick="emailAllpg(true)">Email All Data</button>
+			</div>
+		</div>
+		<div class="stepplablogo"><a href="http://stepplab.com"><img src="img/SteppLabLogo.jpg" /></a></div>
+	</div>
+
+<!--About VoiceTx Page -->
+<div id="aboutUsPage">
+<div class="logo"><img src="img/logo150w.jpg" /></div>
+<div class="pageTitle">About VoiceTx</div>
+<p>VoiceTx is an electronic voice therapy documentation system developed in the Stepp Lab for Sensorimotor Rehabilitation Engineering at Boston University.</p>
+	<p>Because this program is licensed free of charge, there is no warranty for the program. The software is provided "as is" without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. For more information, please see:</p>
+<p><br /><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a><br><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="img/liscence.jpg" /></a></p>
+	<p>Heller Murray E.S., Girouard K.L., Cler M.J., Stepp C.E. &quot;Development of an Electronic Documentation System for Voice Therapy: A New Teaching and Clinical Research Tool&quot;, ASHA SIG3 PERSPECTIVES, in press</p>
+	<p>More about us: <a rel="labHome" href="http://sites.bu.edu/stepplab/">http://sites.bu.edu/stepplab/ </a><br>
+		Contact: stepplab@gmail.com <br></p>
+	<button type="button" class="backButton" onclick="aboutVoiceTx(false)">Back</button>
+</div>
+	
+<!--Email all data page-->
+<div id="emailAllPage">
+<div class="logo"><img src="img/logo150w.jpg" /></div>
+<div class="pageTitle">Email All Data</div>
+<p>Click here to send a text file of the complete local database in an email. </p>
+	<button type="button" id="emaildata"  class="aboutButton" onclick="emailDatabase()">Send Email</button>
+<p>The text will appear in SQLite formatting and may be converted to a CSV (excel) document for easier reading. Instuctions on how to download and run this software here: </p>
+	<button type="button" id="instructBut"  class="aboutButton" onclick="showInstruct(true)">Show Instructions</button>
+	<p id="emailInstruct"> 
+		-Download the appropraite DB Browser version for your computer or device at http://sqlitebrowser.org/
+		<br>-Open DB Browser
+		<br>-Click "New Database" and select a filname and location to save your document
+		<br>-Click the execute SQL table
+		<br>-Paste ALL text from the email in the SQL 1 textbox. It will likely paste in a single line; scroll left to view.
+		<br>-Click the blue arrow above the SQL textbox
+		<br>-A message should appear beginning with "Query executed successfully:"
+		<br>-Click the Database Structure or Browse Database tabs to view the upload.
+		<br>-To export as a CSV file (excel readable) go to File --> Export and select "Table(s) as a CSV file"
+		<br>-In the "Export data as CSV" window, highlight all database tables you wish to export, click OK, and select a folder in which to save your files - each table will save as an individual CSV file.
+<br><br>
+	Please send any comments on these instructions via the "Send App Feedback" option on the VoiceTx home page. 
+	</p>
+	<button type="button" id="noInstructBut"  class="aboutButton" onclick="showInstruct(false)">Hide Instructions</button>
+	<br>
+	<button type="button" class="backButton" onclick="emailAllpg(false)">Back</button>
+</div>	
+
+<!--Manage session page.----------------------------------------------------------------------------------------->
+<div id="managePage">
+	<div class="pageTitle">Session Manager</div>
+	<div id="manageButs">
+		<div align="center"><button type="button" onclick="manageType('subject')">Patients</button></div>
+		<div align="center"><button type="button" onclick="manageType('indirect')">Indirect Intervention Vocal Hygiene Goals</button></div>
+		<div align="center"><p><b>Direct Intervention Components:</b></p></div>
+		<div align="center" id="dirManOpts"><button type="button" onclick="manageType('goals')">Goals</button><button type="button" onclick="manageType('tools')">Tools</button><button type="button" onclick="manageType('utter')">Utterance Levels</button><button type="button" onclick="manageType('deliv')">Delivery Methods</button></div>
+	</div>
+	<div id="manageList">
+		<div id="manageTitle" class="pageTitle"></div>
+			<form id="dbManager">
+				<table id="manageTable">
+				<tr>
+					<td><b>Show/Hide</b></td>
+					<td id="manText"><b>Text</b></td>
+					<td>Key</td>
+					<td>State</td>
+				</tr>
+				</table>
+			</form>	<p><button type="button" id="mngAddStarter" onclick="mngAdd(true)">Add new ...</button></p>
+			<form id="mngAddForm">
+				<textarea id="mngInput" rows="3" cols="40" maxlength="255"></textarea>
+				<button type="button" id="mngAddBut" onclick="mngAdd(false)">Add & Update</button>
+			</form>
+	<div id="manBackBut" class="contentButtons"><button type="button" onclick="resetMan()">Back</button></div>			
+	</div>
+	<div class="footerButtons">
+			<button type="button" class="helpButton" id="helpButm" class="blueButton" onclick="showHelp(true)">Help</button>
+			<button type="button" class="helpButton" id="hideHelpButm" class="blueButton" onclick="showHelp(false)">Hide Help</button>
+			<div class="footerLogo"><img src="img/logo35h.jpg" /></div>
+			<button type="button" id="backManager" onclick="openManageSess(false)">End Manager</button>
+	</div>
+</div>
+	
+<!--Subject Selection Page. If client is already in database, user will search for client by subjectID and begin session where left off. Sender #0.----------------------------------------------->
+    <div id="subjSelectPage">
+		<div id="subjBody" class="bodyContent"> 
+			<!--Search Subject Database by Subject Id-->
+			<div class="pageTitle">Find Existing Patient</div>
+			<form id="subjSelectForm">
+				<table id="subjSelectTable">
+				<tr>
+					<td>&nbsp;</td>
+					<td><b>Subject ID </b></td>
+					<td><b>Date created</b></td>
+					<td>Key</td>
+				</tr>
+				</table>
+			<p id="selectedSubjText">Select a patient from the table above.</p>
+			</form>
+			<button type="button" id="newPatBut" onclick="choseNewPatient()">Start New Patient</button>
+		</div>
+			
+		<div id="subjSelectOptions" class="contentButtons">
+			<button type="button" id="subjectContinueBut" onclick="subjContinue(0)">Continue from last session</button><br>
+			<button type="button" id="subjectIndBut" onclick="subjContinue(2)">Go to indirect intervention</button><br>
+			<button type="button" id="subjectDirBut" onclick="subjContinue(1)">Go to direct intervention</button><br>
+		</div>
+		<div class="footerButtons">
+			<button type="button" class="helpButton" id="helpButss" class="blueButton" onclick="showHelp(true)">Help</button>
+			<button type="button" class="helpButton" id="hideHelpButss" class="blueButton" onclick="showHelp(false)">Hide Help</button>
+			<div class="footerLogo"><img src="img/logo35h.jpg" /></div>
+			<button type="button" id="startBackBut" class="backButton" onclick="startBack()">Back</button>
+		</div>
+    </div>
+	
+<!--Subject ID Form Page. User will enter basic client info to be saved and added to the database. Sender #1.---------------------------------------------------------------------------------->
+	<div id="subjIDPage">	
+		<div class="bodyContent"> 
+			<div class="pageTitle">Add Patient</div>
+				<form id="basicInfoForm">
+					Patient ID: <input type="text" name="subjID" id="subjID"> <br>
+					Age: <input type="text" name="age" id="ageInput"> <br>
+					Gender: <label><input type="radio" name="gender" id="genMale" value="Male">Male </label>
+								<label><input type="radio" name="gender" id="genFemale" value="Female">Female </label><br>
+					Diagnosis/Patient Health Notes:<br><textarea id="diagnosisInput" rows="5" cols="40" maxlength="255"></textarea>
+				</form>
+				<div id="subjFormSubmit"><button type="button" id="subjbutton" onclick="fillSubjInfo()">Save New Patient Data</button></div>
+			<p id="subjDBstatus"></p>
+		</div>
+		
+		<div id="beginNewButs" class="contentButtons">
+			<button type="button" onclick="interventionSwitch(1)">Begin Indirect Intervention</button>
+			<button type="button" onclick="interventionSwitch(2)">Begin Direct Intervention</button>
+		</div>
+		
+		<div class="footerButtons">
+			<button type="button" class="helpButton" id="helpButns" class="blueButton" onclick="showHelp(true)">Help</button>
+			<button type="button" class="helpButton" id="hideHelpButns" class="blueButton" onclick="showHelp(false)">Hide Help</button>
+			<div class="footerLogo"><img src="img/logo35h.jpg" /></div>
+			<button type="button" id="backButton1" class="backButton" onclick="startBack()">Back</button>
+		</div>	
+	</div>
+	
+<!-- Navigation between intervention types (from header)-------------------------------------------------------------------->
+	<div id="intervSwitchButs" class="contentButtons">
+		<button type="button" onclick="subjContinue(2)">Go to Indirect Intervention</button>
+		<button type="button" onclick="subjContinue(1)">Go to Direct Intervention</button>
+	</div>
+
+<!--Indirect Goal Page. Sender #2.----------------------------------------------------------------------------------------------------------------------------------------------------->	
+	<div id="indGoalPage">
+		<div class="bodyContent"> 
+			<p align="center"><button type="button" id="startIndCoun" onclick="setEditText(5)">Counseling</button></p>
+			<p align="center"><button type="button" id="startIndPed" onclick="pickPed()">Pedagogy</button></p>
+			<div id="pedChoices"><p align="center"><button type="button" id="pedGoals" onclick="setEditText(1)">General Knowledge Enhancement</button><button type="button" id="pedGoals" onclick="startIndSess(2)">Vocal Hygiene Goals</button></p></div>
+			
+			<!--create edit page div-->
+			<div id="indEditPage">
+				<div id="indEditText"></div>
+				<p align="center"><button type="button" id="iEditBut" onclick="editChoice(1)">Edit Last Session</button><button type="button" id="iClearBut" onclick="editChoice(2)">Start New</button></p>
+			</div>
+		
+<!--GKE-->
+			<div id="gkeDiv">
+			<form>
+			<div class="pageTitle">General Knowledge Enhancement</div> 
+			
+				Explain the vocal mechanism <br><textarea id ="gke0"></textarea><br>
+				Explain results from the voice evaluation <br><textarea id ="gke1"></textarea><br>
+				Explain deviant vocal characteristics noted <br><textarea id ="gke2"></textarea><br>
+				Other general knowledge enhancement notes <br><textarea id ="gke3"></textarea><br>
+
+				<button type="button" id="endGKEbut" onclick="saveGKESess(false)">Save & Return</button><br>
+				<button type="button" id="updateGKEbut"  onclick="saveGKESess(true)">Update & Return</button>
+			</form>
+			</div>
+
+<!--VH goals-->
+			<div id="indVHGoalsDiv">
+			<form>
+			<div class="pageTitle">Vocal Hygiene</div>
+				1)Identify the behavior <br> <textarea id = "q1text"></textarea><br> 
+				2)Describe the effects <br> <textarea id = "q2text"></textarea><br> 
+				3)Define specific occurrences<br> <textarea id = "q3text"></textarea><br> 
+				4)Plan for modifying the behavior <br> <textarea id = "q4text"></textarea><br>		
+				5)Other notes <br> <textarea id = "q5text" name="comment"></textarea><br /><br> 
+				<button type="button" id="nextIndBut"  onclick="saveIndGoal()">Save & Select Next Goal</button><br>
+				<br>
+			</form>
+			</div>
+	
+<!--Counseling-->	
+			<div id="indCounselingDiv">
+			<form>
+			<div class="pageTitle">Counseling</div>
+				Coping Strategies <br> <textarea id = "cCounText"></textarea><br> 
+				Stress Management<br> <textarea id = "sCounText"></textarea><br> 
+				Therapeutic Interactions<br> <textarea id = "tCounText"></textarea><br> 
+				Other<br> <textarea id = "othCounText"></textarea><br>
+				<button type="button" id="endCounBut"  onclick="saveCounselSess(false)">Save & Return</button>
+				<button type="button" id="updateCounBut"  onclick="saveCounselSess(true)">Update & Return</button>
+			</form>
+			</div>
+		
+			
+<!--Indirect Goal Selection Page (shares space on main indirect page when visible)------------------------------------------------------------>
+		<div id="indSelectPage">
+			<form id="indSelectForm"> 
+				<div class="pageTitle"> Indirect Intervention Vocal Hygiene Goals </div>
+				<table id="indSelectTable" cellpadding="2">
+				<tr>
+					<td>&nbsp;</td>
+					<td id="iTabMsg"></td>
+				</tr>
+				</table>
+			</form>
+			<br>
+			<form id="addIndForm">
+				<textarea id="indGoalInput" rows="5" cols="40" maxlength="255"></textarea>
+				<button type="button" id="addIndBut" onclick="addNewIndGoal(false)">Add & Update</button>
+			</form>
+			<p><button type="button" id="addNewIndBut" onclick="addNewIndGoal(true)">Add New Goal</button></p>
+			
+			<button type="button" onclick="startIndSess(4)">Return to Indirect Intervention Options</button>
+		</div>
+		</div>
+		
+		<div class="footerButtons">
+			<button type="button" class="helpButton" id="helpButi" class="blueButton" onclick="showHelp(true)">Help</button>
+			<button type="button" class="helpButton" id="hideHelpButi" class="blueButton" onclick="showHelp(false)">Hide Help</button>
+			<div class="footerLogo"><img src="img/logo35h.jpg" /></div>
+			<button type="button" id="endSessInt" onclick="endSess()">End Session</button>
+		</div>
+	</div>
+
+<!--Direct Goal Page. Direct intervention levels. Sender #3.-------------------------------------------------------------------------------------------------------------------------->	
+	<div id="dirGoalPage">
+		<div class="bodyContent">
+			
+	<!--Form for selecting method(s)/task(s)-->
+		<div id="methTaskForm">
+			<form id="taskTextForm"> <div class="pageTitle">Select methods and corresponding tasks below: </div>
+				<div class="taskCategory"><label><input type="checkbox" id="semMethod" onclick="updateMethods(this.id)"><b>Somatosensory</b><br></label>
+					<div id="semMethodTasks">
+					</div></div>
+				<div class="taskCategory"><label><input type="checkbox" id="audMethod" onclick="updateMethods(this.id)"><b>Auditory</b><br></label>
+					<div id="audMethodTasks">
+					</div></div>
+				<div class="taskCategory"><label><input type="checkbox" id="resMethod" onclick="updateMethods(this.id)"><b>Respiratory</b><br></label>
+					<div id="resMethodTasks">
+					</div></div>
+				<div class="taskCategory"><label><input type="checkbox" id="vocMethod" onclick="updateMethods(this.id)"><b>Vocal Function</b><br></label>
+					<div id="vocMethodTasks">
+					</div></div>
+				<div class="taskCategory"><label><input type="checkbox" id="musMethod" onclick="updateMethods(this.id)"><b>Musculoskeletal</b><br></label>
+					<div id="musMethodTasks">
+					</div></div>
+				<div class="taskCategory"><label><input type="checkbox" id="othMethod" onclick="updateMethods(this.id)"><b>Other</b><br></label>
+					<div id="othMethodTasks">
+					</div></div>
+
+		<button type="button" id="subMTBut" onclick="submitMethTasks(false)">Submit Selection & Continue</button>
+		</form>
+		</div>
+
+<!--Form for selecting utterance levels-->
+		
+		<div id="uttForm"><div class="pageTitle">Select Utterance Level </div>
+			<form id="uttLevelSelectForm">
+				<div id="uttLevels">
+				</div>
+			<form>Create new level: <input type="text" id="uttOtherText"><button type="button" id="uttOthSubmit" onclick="addOthUtt()">Add</button>
+			<br>
+			</form>
+		<button type="button" id="subUttBut" onclick="submitUttLevel(true)">Submit Selection & Continue</button>			
+		</div>
+		
+<!--Form for selecting cue levels (not using)id="cForm"-->		
+		<div id="cueTitle" class="pageTitle">Select trial delivery method(s)</div>
+		<div id="cueLevListForm">
+		<form>
+			<div class="taskCategory"><label><input type="checkbox" id="cue1" onclick="showCues(this.id)"><b>Extrinsic</b><br></label>
+				<div id="cue1deliv" class="methodGroup">
+				</div></div>
+			<div class="taskCategory"><label><input type="checkbox" id="cue2" onclick="showCues(this.id)"><b>Extrinsic/Intrinsic</b><br></label>
+				<div id="cue2deliv" class="methodGroup">
+				</div></div>
+			<div class="taskCategory"><label><input type="checkbox" id="cue3" onclick="showCues(this.id)"><b>Intrinsic</b><br></label>
+				<div id="cue3deliv" class="methodGroup">
+				</div></div>
+			<button type="button" id="delivChosenBut" onclick="setDM()">Submit Selection & Start Trials</button>
+		</form>
+		</div>
+		<br>
+		<div id="trialBoxes">
+		<p>&nbsp;</p>
+		<p>&nbsp;</p><br>
+		<form id="tenBoxes">
+			<div id="tb1" class="unchecked threestate" onclick="changeState(this)">1</div>
+			<div id="tb2" class="unchecked threestate" onclick="changeState(this)">2</div>
+			<div id="tb3" class="unchecked threestate" onclick="changeState(this)">3</div>
+			<div id="tb4" class="unchecked threestate" onclick="changeState(this)">4</div>
+			<div id="tb5" class="unchecked threestate" onclick="changeState(this)">5</div>
+			<div id="tb6" class="unchecked threestate" onclick="changeState(this)">6</div>	
+			<div id="tb7" class="unchecked threestate" onclick="changeState(this)">7</div>
+			<div id="tb8" class="unchecked threestate" onclick="changeState(this)">8</div>
+			<div id="tb9" class="unchecked threestate" onclick="changeState(this)">9</div>
+			<div id="tb10" class="unchecked threestate" onclick="changeState(this)">10</div>
+			<p>&nbsp;</p><br>
+			<p>&nbsp;</p>
+
+			<p>Trial Notes:</p>
+				<textarea id="trialNoteBox" rows="5" cols="40" maxlength="255"></textarea>
+				
+				<br><button type="button" id="completeTrialBut" class="submitted" onclick="completeTrial(true)">Trial Complete</button><br>	
+			<!--<br>--><p>&nbsp;</p>
+			<div id="trialResetter">
+				<b><h3><p id="trialMsg">Trial message</p></h3></b>
+				<button type="button" onclick="newTrial()"> Clear Boxes & Repeat Task </button>
+			</div>
+		</form>
+		</div>
+	</div>
+<!--Direct Goal Selection Page ------------------------------------------------------------>
+		<div id="dirSelectPage">
+			<form id="dirSelectForm">
+			<div class="pageTitle"> Direct Intervention Goals </div>
+				<table id="dirSelectTable" cellpadding="2">
+				<tr>
+					<td></td>
+					<td id="dTabMsg">&nbsp;</td>
+				</tr>
+				</table>
+			</form>
+			
+			<form id="addDirForm">
+				<br><textarea id="dirGoalInput" rows="5" cols="40" maxlength="255"></textarea>
+				<button type="button" id="addDirBut" onclick="addNewDirGoal(false)">Add & Update</button>
+			</form>
+		<p><button type="button" id="addNewDirBut" onclick="addNewDirGoal(true)">Add New Goal</button></p>
+		</div>
+	
+	<div class="footerButtons">
+		<button type="button" class="helpButton" id="helpButd" class="blueButton" onclick="showHelp(true)">Help</button>
+		<button type="button" class="helpButton" id="hideHelpButd" class="blueButton" onclick="showHelp(false)">Hide Help</button>
+		<div class="footerLogo"><img src="img/logo35h.jpg" /></div>
+		<button type="button" id = "endSessDir" onclick="endSess()">End Session</button>
+	</div>	
+
+	</div>
+	
+<!--Help----------------------------------------> 
+	<div id="helpPage" class="helpGroup">
+		<div id="noHelpText">No help definitions available for this page</div>
+		<div id="manageHelpText">The session manager allows the user to alter the visibility some of VoiceTx's saved elements: patients, vocal hygiene goals, and direct intervention goals, tools, utterance levels and delivery methods. Selecting to hide an item does <b>not</b> delete it from the database, but rather removes it from the visible selection during a VoiceTx session. A hidden item will still appear in the manager and can be reintroduced to the selection.</div>
+		<div id="indHelpText"><div class="pageTitle">Indirect Intervention</div><br>
+<b>Indirect Intervention:</b> Any intervention that modifies vocal behavior through modification of cognitive, behavioral, psychological, and physical environments in which voicing occurs.<br><br>
+<b>Counseling Intervention:</b> An indirect intervention tool in which the clinician helps identify and modify psychosocial factors that negatively affect vocal health.<br><br>
+<b>Pedagogy Intervention:</b> An indirect intervention tool in which the clinician provides declarative knowledge and strategies to modify vocal health.<br>
+<div class="pageSub">Definitions from Van Stan, J. H., Roy, N., Awan, S., Stemple, J., & Hillman, R. E. (2015). A taxonomy of voice therapy. American Journal of Speech-Language Pathology, 24(2), 101-125. doi: 10.1044/2015_AJSLP-14-0030</div>
+</div>
+		<div id="counsHelpText"><div class="pageTitle">Indirect Intervention: Counseling</div><br>
+<b>Coping Strategies:</b> An indirect intervention tool in which the clinician attempts to identify and modify psychosocial factors that negatively affect vocal health through reinforcement of positive emotional and lifestyle adaptations or discouragement of maladaptive patterns of behavior.<br><br>
+<b>Stress Management:</b> An indirect intervention tool in which the clinician attempts to identify and modify psychosocial factors that negatively affect vocal health through discussion and application of strategies to help patients manage their stress and anxiety levels in varying contexts.<br><br>
+<b>Therapeutic Interaction:</b> An indirect intervention tool in which the clinician attempts to identify and modify psychosocial factors that negatively affect vocal health through discussion with the patient regarding psychological or emotional factors and effective problem solving.<br>
+<div class="pageSub">Definitions from Van Stan, J. H., Roy, N., Awan, S., Stemple, J., & Hillman, R. E. (2015). A taxonomy of voice therapy. American Journal of Speech-Language Pathology, 24(2), 101-125. doi: 10.1044/2015_AJSLP-14-0030</div>
+</div>
+		<div id="pedHelpText"><div class="pageTitle">Indirect Intervention: Pedagogy</div><br>
+<b>Knowledge Enhancement:</b> An indirect intervention tool in which the clinician attempts to identify and modify psychosocial factors that negatively affect vocal health through reinforcement of positive emotional and lifestyle adaptations or discouragement of maladaptive patterns of behavior.<br><br>
+<b>Vocal Hygiene:</b> An indirect intervention tool in which the clinician attempts to identify and modify psychosocial factors that negatively affect vocal health through discussion and application of strategies to help patients manage their stress and anxiety levels in varying contexts.<br>
+<div class="pageSub">Definitions from Van Stan, J. H., Roy, N., Awan, S., Stemple, J., & Hillman, R. E. (2015). A taxonomy of voice therapy. American Journal of Speech-Language Pathology, 24(2), 101-125. doi: 10.1044/2015_AJSLP-14-0030</div>
+</div>
+		<div id="vocHygHelpText"><div class="pageTitle">Vocal Hygiene</div><br>
+<div class="pageSub">Stemple, J. C., Glaze, L. E., & Gerdeman, B. K. (2000). Clinical voice pathology: Theory and management: Cengage Learning.</div>
+</div>
+		<div id="dirHelpText"><div class="pageTitle">Direct Intervention</div><br>
+<b>Direct Intervention:</b> Any intervention that modifies vocal behavior through motor execution, somatosensory feedback, and auditory feedback.<br>
+<div class="pageSub">Definitions from Van Stan, J. H., Roy, N., Awan, S., Stemple, J., & Hillman, R. E. (2015). A taxonomy of voice therapy. American Journal of Speech-Language Pathology, 24(2), 101-125. doi: 10.1044/2015_AJSLP-14-0030</div>
+</div>
+		<div id="mtHelpText"><div class="pageTitle">Direct Intervention Methods and Tools</div><br>
+<b>Methods</b><br><br>
+<b>Auditory Intervention:</b> A direct intervention that directs the patient's attention to the modification of auditory input.<br><br>
+<b>Musculoskeletal Intervention:</b> A direct intervention that directs the patient's attention to the modification of muscular, skeletal, and connective tissue.<br><br>
+<b>Respiratory Intervention:</b> A direct intervention that directs the patient's attention to the modification of respiratory function.<br><br>
+<b>Somatosensory Intervention:</b> A direct intervention that directs the patient's attention to the modification of somatic or visual input.<br><br>
+<b>Vocal Function Intervention:</b> A direct intervention that directs the patient's attention to modification of phonation.<br><div class="pageSub">Definitions from Van Stan, J. H., Roy, N., Awan, S., Stemple, J., & Hillman, R. E. (2015). A taxonomy of voice therapy. American Journal of Speech-Language Pathology, 24(2), 101-125. doi: 10.1044/2015_AJSLP-14-0030</div><br>
+<b>Tools</b><br><br>
+<b>Tool:</b> A direct or indirect intervention that directs the patient to focus on a specific or a few specific degrees of freedom.<br><br>
+<b>Conduction:</b> A direct intervention tool that requires the modification of auditory input by directing the patient's attention to an externally degraded acoustic signal.<br><br>
+<b>Discrimination:</b> A direct intervention tool that requires the modification of somatic input by directing the patient's attention to their sense of position and movement (e.g., kinesthesia), effort, balance, tension, and fine touch such as vibrations and pressure (Fortier & Basset, 2012). This category has a neurological correlate to the posterior column/medial lemniscal neural sensory pathway.<div class="pageSub">Fortier & Basset, 2012, cf. Kandel, Schwartz, Jessell, Siegelbaum, & Hudspeth, 2012</div><br>
+<b>Glottal Contact:</b> A direct intervention tool that modifies the act of phonation by directing the patient's attention toward the amount of true vocal fold tissue interaction for a prolonged time period.<br><br>
+<b>Loudness Modification:</b> A direct intervention tool that requires the modification of respiratory function by directing a patient's attention to vocal intensity for short or prolonged periods of time.<br><br>
+<b>Neck Manipulation:</b> A direct intervention tool that requires the modification of muscular, skeletal, and connective tissue by directing the patient's attention to the physical movement of their anterior, lateral, and posterior neck.<br><br>
+<b>Nociception:</b> A direct intervention tool that requires the modification of somatic input by directing the patient's attention to pain, discomfort, soreness, or temperature. Nociceptive neurons are afferent connections to the central nervous system that respond to tissue injury and provide the physical correlate to pain sensation, as well as crude touch and temperature. <div class="pageSub">Bennett, 2000; Kandel et al., 2012</div><br><br>
+<b>Orofacial Manipulation:</b> A direct intervention tool that requires the modification of muscular, skeletal, and connective tissue by directing a patient's attention toward the physical movement of his or her face and oral cavity.<br><br>
+<b>Pitch Modification:</b> A direct intervention tool that modifies the act of phonation by directing the patient's attention to modification of pitch or maintenance of pitch.<br><br>
+<b>Postural Alignment:</b> A direct intervention tool that requires the modification of muscular, skeletal, and connective tissue by directing the patient's attention to the most efficient alignment of his or her own anatomical structures.<br><br>
+<b>Respiratory Coordination:</b> A direct intervention tool that requires the modification of respiratory function by directing a patient's attention to respiratory modification via glottal and supraglottal maneuvers.<br><br>
+<b>Respiratory Support:</b> A direct intervention tool that requires the modification of respiratory function by directing the patient's attention to subglottal airstream characteristics through exercise and modification of thoracic and abdominal muscle movements.<br><br>
+<b>Sensorineural:</b> A direct intervention tool that requires the modification of auditory input by directing the patient's attention to their perception of pitch, loudness, or more complex auditory constructs (e.g., voice quality, metaphors, descriptors, etc.).<br><br>
+<b>Stretching:</b> A direct intervention tool that requires the modification of muscular, skeletal, and connective tissue by directing the patient's attention toward external or internal forces exerting pressure on muscles and connective tissue for the purpose of increasing flexibility and range of motion. <div class="pageSub">Behm & Chaouachi, 2011</div><br>
+<b>Vegetative Vocalization:</b> A direct intervention tool that modifies the act of phonation by directing the patient's attention to instinctive, physiological, or nonword communicative voicing.<br><br>
+<b>Visual Processing:</b> A direct intervention tool that requires the modification of visual input by directing a patient's attention towards visual perception.
+<div class="pageSub">Definitions from Van Stan, J. H., Roy, N., Awan, S., Stemple, J., & Hillman, R. E. (2015). A taxonomy of voice therapy. American Journal of Speech-Language Pathology, 24(2), 101-125. doi: 10.1044/2015_AJSLP-14-0030</div><br>
+</div>
+		<div id="dmHelpText"><div class="pageTitle">Intervention Delivery Methods</div><br>
+<b>Intervention Delivery Method:</b> A structure applied by either the clinician or patient to deliver an intervention tool.<br><br>
+<b>Augmented Feedback Structure:</b> A structure applied by the clinician or patient to deliver an intervention that provides more information than what is typically received in a task from the sensorineural system (Schmidt & Lee, 2011). Examples include delayed/immediate, summary, blocked/random, variable, and self-controlled feedback. <div class="pageSub">Chiviacowsky & Wulf, 2002; Salmoni, Schmidt, & Walter, 1984, Schmidt & Lee, 2011</div><br>
+<b>Deliberate Practice Structure:</b> A structure applied by the clinician or patient to deliver intervention using activities that have been specifically defined to improve the current level of performance (Ericsson, Krampe, & Tesch-Romer, 1993). It includes the ability to account for dose and distribution of dose (via time spent on task or number of days per week intervention was provided; Roy, 2012), variable or constant practice, and blocked or random practice (Schmidt & Lee, 2011). <div class="pageSub">Ericsson, Krampe, & Tesch-Romer, 1993; Roy, 2012; Schmidt & Lee, 2011</div><br>
+<b>Exploration Structure:</b> A structure applied by the clinician to deliver an intervention using activities that require the patient to explore an entire aspect of their voice (i.e., the 'vocal task space'; Sutton & Barto, 1998). A popular clinical example is 'negative practice.'<div class="pageSub">Sutton & Barto, 1998</div><br>
+<b>Hierarchy Structure:</b> A structure applied by the clinician to deliver an intervention using a series of ranked activities in order of difficulty.<br><br>
+<b>Home Program Structure:</b> A structure applied by the clinician and patient to deliver an intervention using tools outside of the therapy session (e.g., in the patient's typical environment).<br><br>
+<b>Modeling Structure:</b> A structure applied by the clinician to deliver an intervention using tools that produce examples for imitation or judgment purposes.<div class="pageSub">Ferrari, 1996</div><br>
+<b>Psychotherapeutic Structure:</b> A structure applied by the clinician to deliver an intervention using activities ordered or modeled by a theory of behavior change.<div class="pageSub">Van Leer, Hapner, & Connor, 2008</div><br>
+<b>Self-Evaluation Structure:</b>  A structure applied by the patient to deliver an intervention using activities that increase attention to feedback inherent to the activity.<div class="pageSub">Hogan & Yanowitz, 1978; Swinnen, Schmidt, Nicholson, & Shapiro, 1990</div><br>
+<b>Self-Correction Structure:</b> A structure applied by the patient to deliver an intervention using activities that increase attention to on-task variations and errors.<br><br>
+<b>Self-Cuing Structure:</b> A structure applied by the patient to deliver an intervention using activities that increase anticipatory skills and avoidance of errors.<div class="pageSub">Neumann, 1996</div><br>
+<b>Teaching Structure:</b> A structure applied by the clinician to deliver an intervention using activities ordered or modeled by a theory of declarative learning.<br><br>
+<div class="pageSub">Definitions from Van Stan, J. H., Roy, N., Awan, S., Stemple, J., & Hillman, R. E. (2015). A taxonomy of voice therapy. American Journal of Speech-Language Pathology, 24(2), 101-125. doi: 10.1044/2015_AJSLP-14-0030</div></div>
+	</div>
+	
+<!--Post-session Notes Page. The user will have a chance to save any notes from the session in the last session goal info(in sessiontable). Sender #4. class="nextButton" ------------------------>
+    <div id="sessNotesPage">
+        <div class="pageTitle">Session Notes</div>
+		<form id="sessionNotesForm">
+        <p>Enter session notes below (optional) and save patient progress to end session.</p>
+		<textarea id="sessNotes" rows="8" cols="40" maxlength="255"></textarea>
+		<div id="saveSessBut"><button type="button" onclick="saveNotes()">Save</button></div>
+		</form>
+	</div>
+    <div id="endPage">
+        <div class="pageTitle">Session Complete</div>
+		<div class="contentButtons">
+			
+			<button type="button" onclick="createSessionText()">View & Send Session Data</button>
+			<div id="endSendOpts" class="footerButtons"><div id="deviceready"><button type="button" id="endEmailSessBut" onclick="displaySession(true)">Email Session Data</button><button type="button" id="endEmailAllBut" onclick="emailDatabase()">Email Complete Database</button></div></div>
+		</div>
+		<p id="subjRes"></p>
+		<p id="indRes"></p>
+		<p id="dirRes"></p>
+		<p id="sessRes"></p>
+		<div class="footerButtons"><button type="button" id="fullEndBut" onclick="fullSessionEnd()">End Session & Return to Start</button></div>
+    </div>   
+
+   </body>
+	
+</html>
+

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_www" default="compile.module.www">
+  <dirname property="module.www.basedir" file="${ant.file.module_www}"/>
+  
+  <property name="module.jdk.home.www" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.www" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.www" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.www" value="-encoding windows-1252 -source 1.3 ${compiler.args}"/>
+  
+  <property name="www.output.dir" value="undefined"/>
+  <property name="www.testoutput.dir" value="undefined"/>
+  
+  <path id="www.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="www.module.production.classpath"/>
+  
+  <path id="www.runtime.production.module.classpath"/>
+  
+  <path id="www.module.classpath"/>
+  
+  <path id="www.runtime.module.classpath"/>
+  
+  
+  <patternset id="excluded.from.module.www">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.www">
+    <patternset refid="excluded.from.module.www"/>
+  </patternset>
+  
+  
+  <target name="compile.module.www" depends="compile.module.www.production,compile.module.www.tests" description="Compile module www"/>
+  
+  <target name="compile.module.www.production" description="Compile module www; production classes"/>
+  
+  <target name="compile.module.www.tests" depends="compile.module.www.production" description="compile module www; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.www" description="cleanup module">
+    <delete dir="${www.output.dir}"/>
+    <delete dir="${www.testoutput.dir}"/>
+  </target>
+</project>
